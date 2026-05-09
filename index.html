@@ -42,7 +42,7 @@
           <div class="hero-actions">
             <a class="btn primary" href="#projets">Voir mes projets</a>
             <a class="btn outline" href="#contact">Me contacter</a>
-            <a class="btn secondary" href="cv-nassim-hamidat.pdf" target="_blank" rel="noreferrer">Voir mon CV</a>
+            <a class="btn secondary" href="assets/docs/cv-nassim-hamidat.pdf" target="_blank" rel="noreferrer">Voir mon CV</a>
           </div>
         </div>
         <aside class="hero-photo">
@@ -59,7 +59,7 @@
         <h2>À propos de moi</h2>
       </div>
       <div class="about-layout">
-        <article class="card about-card">
+        <article class="about-card">
           <h3>Qui suis-je ?</h3>
           <p>
             Je m’appelle Nassim HAMIDAT, étudiant en BTS SIO option SLAM. En alternance chez AXA,
@@ -192,69 +192,96 @@
         <p class="section-kicker">Projets</p>
         <h2>Quelques projets réalisés</h2>
       </div>
-      <div class="projects-split">
-        <div class="projects-block projects-school">
-          <div class="projects-block-heading">
-            <p class="section-kicker">École</p>
-            <h3>Projets réalisés à l’école</h3>
-          </div>
-          <div class="grid two">
-            <a href="pages/project-prestige-car.html" class="card-link">
-              <article class="card project-card veille-card">
-                <div class="project-media prestige-media has-image">
-                  <img class="project-img" src="assets/images/prestige-car/home.png" alt="PrestigeCar - aperçu">
-                  <span class="media-label">PrestigeCar</span>
-                </div>
-                <div class="project-body">
-                  <div class="project-top">
-                    <p class="pill">École</p>
-                    <h3>PrestigeCar</h3>
-                  </div>
-                  <p>Application Java sécurisée de gestion de flotte avec contrôle d’intégrité et sécurisation des requêtes SQL.</p>
-                </div>
-              </article>
-            </a>
-            <a href="pages/project-premium-move.html" class="card-link">
-              <article class="card project-card veille-card">
-                <div class="project-media premium-media has-image">
-                  <img class="project-img" src="assets/images/premium-move/home.png" alt="Premium Move - aperçu">
-                  <span class="media-label">Premium Move</span>
-                </div>
-                <div class="project-body">
-                  <div class="project-top">
-                    <p class="pill">École</p>
-                    <h3>Premium Move</h3>
-                  </div>
-                  <p>Plateforme web VTC en PHP et MySQL avec requêtes préparées et gestion sécurisée des sessions.</p>
-                </div>
-              </article>
-            </a>
-          </div>
-        </div>
+      <div class="grid two">
+        <a href="pages/project-prestige-car.html" class="card-link">
+          <article class="card project-card veille-card">
+            <div class="project-media prestige-media has-image">
+              <img class="project-img" src="assets/images/prestige-car/home.png" alt="PrestigeCar - aperçu">
+              <span class="media-label">PrestigeCar</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>PrestigeCar</h3>
+              </div>
+              <p>Application Java sécurisée de gestion de flotte avec contrôle d’intégrité et sécurisation des requêtes SQL.</p>
+            </div>
+          </article>
+        </a>
 
-        <div class="projects-block projects-work">
-          <div class="projects-block-heading">
-            <h3>Projets d'Entreprise</h3>
-            <p>Réalisations professionnelles en entreprise.</p>
-          </div>
-          <div class="grid two">
-            <a href="pages/project-attestation-generator.html" class="card-link">
-              <article class="card project-card veille-card">
-                <div class="project-media work-media has-image">
-                  <img class="project-img" src="assets/images/attestation-generator/home.png" alt="Attestation Generator - aperçu">
-                  <span class="media-label">Attestation Generator</span>
-                </div>
-                <div class="project-body">
-                  <div class="project-top">
-                    <span class="pill">Projet entreprise</span>
-                    <h4>Attestation Generator</h4>
-                  </div>
-                  <p>Générateur d’attestation PDF pour automatiser un processus interne répétitif.</p>
-                </div>
-              </article>
-            </a>
-          </div>
-        </div>
+        <a href="pages/project-premium-move.html" class="card-link">
+          <article class="card project-card veille-card">
+            <div class="project-media premium-media has-image">
+              <img class="project-img" src="assets/images/premium-move/home.png" alt="Premium Move - aperçu">
+              <span class="media-label">Premium Move</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>Premium Move</h3>
+              </div>
+              <p>Plateforme web VTC en PHP et MySQL avec requêtes préparées et gestion sécurisée des sessions.</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="pages/project-attestation-generator.html" class="card-link">
+          <article class="card project-card veille-card">
+            <div class="project-media work-media has-image">
+              <img class="project-img" src="assets/images/attestation-generator/home.png" alt="Attestation Generator - aperçu">
+              <span class="media-label">Attestation Generator</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>Attestation Generator</h3>
+              </div>
+              <p>Générateur d’attestation PDF pour automatiser un processus interne répétitif.</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="pages/project-pentest.html" class="card-link" aria-label="Ouvrir le détail du projet Pentest">
+          <article class="card project-card veille-card">
+            <div class="project-media has-image">
+              <img class="project-img" src="assets/images/pentest/pentest_image.png" alt="Pentest - aperçu">
+              <span class="media-label">Pentest</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>Pentest</h3>
+              </div>
+              <p>Contribution à un pentest : création de comptes, préparation et suivi, avec preuves et captures centralisées.</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="pages/project-procedures.html" class="card-link" aria-label="Ouvrir le détail du projet Vidéos et procédures">
+          <article class="card project-card veille-card">
+            <div class="project-media has-image">
+              <img class="project-img" src="assets/images/procedure/procedure_home.png" alt="Vidéos & procédures - aperçu">
+              <span class="media-label">Procédures</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>Vidéos & procédures</h3>
+              </div>
+              <p>Création de tutoriels et procédures pour accompagner les gestionnaires (sur site ou en TTV) : raccourcis, prise en main, et sujets plus avancés (VPN, passerelles, etc.).</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="pages/project-migration-domaine.html" class="card-link" aria-label="Ouvrir le détail du projet Migration de domaine">
+          <article class="card project-card veille-card">
+            <div class="project-media has-image">
+              <img class="project-img" src="assets/images/migration/migration.jpg" alt="Migration de domaine - aperçu">
+              <span class="media-label">Migration</span>
+            </div>
+            <div class="project-body">
+              <div class="project-top">
+                <h3>Migration du domaine .net vers .fr</h3>
+              </div>
+              <p>Accompagnement des utilisateurs dans la transition de domaine avec consignes, impacts et procédure de bascule.</p>
+            </div>
+          </article>
+        </a>
       </div>
     </section>
 
