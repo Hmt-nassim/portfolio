@@ -14,47 +14,126 @@
 <body>
   <header class="header">
     <div class="container nav">
-      <a class="brand" href="../index.html">← Retour au portfolio</a>
       <nav>
         <a href="../index.html#projets">Projets</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
+      <a class="back-link" href="../index.html">Retour</a>
     </div>
   </header>
 
-  <section class="hero-wrap cover" style="--hero-cover: url('../assets/images/veille-1/home.jpg');">
-    <div class="container" style="padding: 2.5rem 0;">
-      <h1>Comment se protéger des fuites d'informations</h1>
-      <p class="hero-role">Stratégies et outils de prévention</p>
-    </div>
-  </section>
-
-  <main class="page">
-    <section>
-      <h2>Question de veille</h2>
-      <p style="margin-top: 0.6rem;">
-        Comment se protéger des fuites d’informations&nbsp;? Quelles stratégies et quels outils de prévention adopter dans une organisation&nbsp;?
-      </p>
-    </section>
-
-    <section style="margin-top: 1.25rem;">
-      <h2>Réponse (approche Q/R)</h2>
-      <ol style="margin-top: 0.6rem;">
-        <li>Études, guides et référentiels (ANSSI, ISO/IEC) — gouvernance, gestion des accès, sensibilisation. <em>À compléter</em></li>
-        <li>Vidéos et webinaires — retours de mise en œuvre, erreurs fréquentes et bonnes pratiques. <em>À compléter</em></li>
-        <li>Reportages et analyses d’incidents — vecteurs de fuite, impacts et plans d’action. <em>À compléter</em></li>
-        <li>Synthèse et plan — mesures prioritaires, contrôles et suivi de l’efficacité. <em>À compléter</em></li>
-      </ol>
-    </section>
-
-    <section style="margin-top: 1.25rem;">
-      <h2>Sources</h2>
-      <ul>
-        <li>Source 1 (à ajouter)</li>
-        <li>Source 2 (à ajouter)</li>
-        <li>Source 3 (à ajouter)</li>
-      </ul>
+  <main class="page slides-page">
+    <section class="ppt" aria-label="Diaporama veille 1">
+      <button class="ppt-btn ppt-prev" type="button" aria-label="Diapositive précédente">←</button>
+      <button class="ppt-btn ppt-next" type="button" aria-label="Diapositive suivante">→</button>
+      <img class="ppt-slide" id="ppt-slide" src="../assets/images/veille-1/home.jpg" alt="Diapositive">
     </section>
   </main>
+
+  <script>
+    (() => {
+      const img = document.getElementById("ppt-slide");
+      const nextBtn = document.querySelector(".ppt-next");
+      const prevBtn = document.querySelector(".ppt-prev");
+      const base = "../assets/images/veille-1/slides/slide-";
+      const ext = ".jpg";
+      const maxSlides = 50;
+      const fallback = "../assets/images/veille-1/home.jpg";
+
+      const pad2 = (n) => String(n).padStart(2, "0");
+      const srcFor = (n) => {
+        if (n === 1) {
+          return "../assets/images/veille-1/home.jpg";
+        }
+        if (n === 2) {
+          return "../assets/images/veille-1/home2.jpg";
+        }
+        return `${base}${pad2(n - 2)}${ext}`;
+      };
+
+      const parseStart = () => {
+        const hash = window.location.hash.replace("#", "");
+        const asNumber = Number.parseInt(hash, 10);
+        return Number.isFinite(asNumber) && asNumber > 0 ? asNumber : 1;
+      };
+
+      const tryLoad = (url) =>
+        new Promise((resolve) => {
+          const probe = new Image();
+          const timer = window.setTimeout(() => {
+            probe.src = "";
+            resolve(false);
+          }, 600);
+          probe.onload = () => {
+            window.clearTimeout(timer);
+            resolve(true);
+          };
+          probe.onerror = () => {
+            window.clearTimeout(timer);
+            resolve(false);
+          };
+          probe.src = url;
+        });
+
+      let current = parseStart();
+
+      const show = (n) => {
+        current = n;
+        window.location.hash = String(n);
+        img.src = srcFor(n);
+      };
+
+      const findAndShow = async (direction) => {
+        for (let i = 0; i < maxSlides; i += 1) {
+          const candidate = ((current - 1 + direction * (i + 1)) % maxSlides + maxSlides) % maxSlides + 1;
+          const url = srcFor(candidate);
+          const ok = await tryLoad(url);
+          if (ok) {
+            show(candidate);
+            return;
+          }
+        }
+        img.src = fallback;
+      };
+
+      img.addEventListener("click", () => {
+        void findAndShow(1);
+      });
+
+      nextBtn.addEventListener("click", () => {
+        void findAndShow(1);
+      });
+
+      prevBtn.addEventListener("click", () => {
+        void findAndShow(-1);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === " " || event.code === "Space" || event.key === "ArrowRight" || event.key === "PageDown") {
+          event.preventDefault();
+          void findAndShow(1);
+          return;
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          void findAndShow(-1);
+        }
+      });
+
+      img.addEventListener("error", () => {
+        img.src = fallback;
+      });
+
+      void (async () => {
+        const startUrl = srcFor(current);
+        const ok = await tryLoad(startUrl);
+        if (ok) {
+          show(current);
+          return;
+        }
+        img.src = fallback;
+      })();
+    })();
+  </script>
 </body>
 </html>
