@@ -18,7 +18,7 @@
         <a href="../index.html#projets">Projets</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
-      <a class="back-link" href="../index.html">Retour</a>
+      <a class="back-link" href="../index.html#veille">Retour</a>
     </div>
   </header>
 
@@ -26,38 +26,30 @@
     <section class="ppt" aria-label="Diaporama veille 2">
       <button class="ppt-btn ppt-prev" type="button" aria-label="Diapositive précédente">←</button>
       <button class="ppt-btn ppt-next" type="button" aria-label="Diapositive suivante">→</button>
-      <img class="ppt-slide" id="ppt-slide" src="../assets/images/veille-2/home.jpg" alt="Diapositive">
+      <img class="ppt-slide" id="ppt-slide" src="../assets/images/veille-2/1.png" alt="Diapositive">
     </section>
   </main>
 
   <script>
     (() => {
-      const img = document.getElementById("ppt-slide");
-      const nextBtn = document.querySelector(".ppt-next");
-      const prevBtn = document.querySelector(".ppt-prev");
-      const base = "../assets/images/veille-2/slides/slide-";
-      const ext = ".jpg";
-      const maxSlides = 50;
-      const fallback = "../assets/images/veille-2/home.jpg";
+      const slideImage = document.getElementById("ppt-slide");
+      const nextButton = document.querySelector(".ppt-next");
+      const prevButton = document.querySelector(".ppt-prev");
 
-      const pad2 = (n) => String(n).padStart(2, "0");
-      const srcFor = (n) => {
-        if (n === 1) {
-          return "../assets/images/veille-2/home.jpg";
-        }
-        if (n === 2) {
-          return "../assets/images/veille-2/home2.jpg";
-        }
-        return `${base}${pad2(n - 2)}${ext}`;
+      const SLIDE_FOLDER = "../assets/images/veille-2/";
+      const SLIDE_COUNT = 6;
+      const FALLBACK_URL = `${SLIDE_FOLDER}1.png`;
+
+      const getSlideUrl = (index) => `${SLIDE_FOLDER}${index}.png`;
+
+      const getStartIndexFromHash = () => {
+        const hashValue = window.location.hash.replace("#", "");
+        const parsed = Number.parseInt(hashValue, 10);
+        if (!Number.isFinite(parsed) || parsed <= 0) return 1;
+        return Math.min(parsed, SLIDE_COUNT);
       };
 
-      const parseStart = () => {
-        const hash = window.location.hash.replace("#", "");
-        const asNumber = Number.parseInt(hash, 10);
-        return Number.isFinite(asNumber) && asNumber > 0 ? asNumber : 1;
-      };
-
-      const tryLoad = (url) =>
+      const urlExists = (url) =>
         new Promise((resolve) => {
           const probe = new Image();
           const timer = window.setTimeout(() => {
@@ -75,56 +67,64 @@
           probe.src = url;
         });
 
-      let current = parseStart();
+      let currentIndex = getStartIndexFromHash();
 
-      const show = (n) => {
-        current = n;
-        window.location.hash = String(n);
-        img.src = srcFor(n);
+      const setSlide = (index) => {
+        currentIndex = index;
+        window.location.hash = String(index);
+        slideImage.src = getSlideUrl(index);
       };
 
-      const findAndShow = async (direction) => {
-        for (let i = 1; i <= maxSlides; i += 1) {
-          const candidate = ((current - 1 + direction * i) % maxSlides + maxSlides) % maxSlides + 1;
-          const url = srcFor(candidate);
-          const ok = await tryLoad(url);
+      const go = async (delta) => {
+        for (let step = 1; step <= SLIDE_COUNT; step += 1) {
+          const candidate =
+            ((currentIndex - 1 + delta * step) % SLIDE_COUNT + SLIDE_COUNT) % SLIDE_COUNT + 1;
+          const url = getSlideUrl(candidate);
+          const ok = await urlExists(url);
           if (ok) {
-            show(candidate);
+            setSlide(candidate);
             return;
           }
         }
-        img.src = fallback;
+        slideImage.src = FALLBACK_URL;
       };
 
-      img.addEventListener("click", () => {
-        void findAndShow(1);
+      slideImage.addEventListener("click", () => {
+        void go(1);
       });
 
-      nextBtn.addEventListener("click", () => {
-        void findAndShow(1);
+      nextButton.addEventListener("click", () => {
+        void go(1);
       });
 
-      prevBtn.addEventListener("click", () => {
-        void findAndShow(-1);
+      prevButton.addEventListener("click", () => {
+        void go(-1);
       });
 
       document.addEventListener("keydown", (event) => {
         if (event.key === " " || event.code === "Space" || event.key === "ArrowRight" || event.key === "PageDown") {
           event.preventDefault();
-          void findAndShow(1);
+          void go(1);
           return;
         }
         if (event.key === "ArrowLeft" || event.key === "PageUp") {
           event.preventDefault();
-          void findAndShow(-1);
+          void go(-1);
         }
       });
 
-      img.addEventListener("error", () => {
-        img.src = fallback;
+      slideImage.addEventListener("error", () => {
+        slideImage.src = FALLBACK_URL;
       });
 
-      void findAndShow(0);
+      void (async () => {
+        const ok = await urlExists(getSlideUrl(currentIndex));
+        if (ok) {
+          setSlide(currentIndex);
+          return;
+        }
+        slideImage.src = FALLBACK_URL;
+      })();
     })();
   </script>
 </body>
